@@ -1,6 +1,5 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import config from '@/payload.config'
@@ -11,9 +10,12 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
 export default async function ProductPage(
-  props: Promise<{
-    id: string
-  }>,
+  props: Promise<
+    | {
+        id: string
+      }
+    | any
+  >,
 ) {
   const id = (await props).id
   const payloadConfig = await config
@@ -108,67 +110,71 @@ export default async function ProductPage(
 
             <Separator />
 
-            {/* Price Selection */}
+            {/* Price Section */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Select Package</h2>
-              <div className="grid gap-4">
-                {product.prices?.map(
-                  (price, index) =>
-                    typeof price === 'object' && (
-                      <Card
-                        key={index}
-                        className="relative overflow-hidden hover:border-black transition-colors cursor-pointer"
-                      >
-                        <CardContent className="p-4 flex justify-between items-center">
-                          <div>
-                            <h3 className="font-medium">{price.name}</h3>
-                            <div className="flex items-center gap-2 mt-1">
-                              <span className="text-2xl font-bold">
-                                ₦{price.amount.toLocaleString()}
-                              </span>
-                              {price.amount < 100000 && (
-                                <>
-                                  <span className="text-sm text-gray-500 line-through">
-                                    ₦{(price.amount * 1.2).toLocaleString()}
-                                  </span>
-                                  <Badge variant="destructive" className="text-xs">
-                                    20% OFF
-                                  </Badge>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                          <Button>Select</Button>
-                        </CardContent>
-                      </Card>
-                    ),
-                )}
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl font-bold text-gray-900">
+                    {product.price ? `₦${product.price.toLocaleString()}` : 'Price not available'}
+                  </span>
+                  {product.price && product.price < 100000 && (
+                    <>
+                      <span className="text-lg text-gray-500 line-through">
+                        ₦{(product.price * 1.2).toLocaleString()}
+                      </span>
+                      <Badge variant="destructive">20% OFF</Badge>
+                    </>
+                  )}
+                </div>
               </div>
+
+              {/* Quantity (you might want to make this client-side interactive) */}
+              {product.price && (
+                <>
+                  <div className="flex items-center gap-4">
+                    <label className="text-sm font-medium text-gray-700">Quantity:</label>
+                    <div className="flex items-center border rounded-md">
+                      <Button variant="ghost" size="sm" className="px-3">
+                        -
+                      </Button>
+                      <span className="w-12 text-center">1</span>
+                      <Button variant="ghost" size="sm" className="px-3">
+                        +
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Button size="lg" className="w-full bg-black hover:bg-black/90">
+                    <ShoppingCart className="h-5 w-5 mr-2" />
+                    Add to Cart
+                  </Button>
+
+                  {product.price > 50000 && (
+                    <p className="text-sm text-green-600 flex items-center justify-center gap-2">
+                      <Truck className="h-4 w-4" />
+                      Eligible for Free Shipping
+                    </p>
+                  )}
+                </>
+              )}
             </div>
 
-            <div className="space-y-4">
-              <Button size="lg" className="w-full bg-black hover:bg-black/90">
-                <ShoppingCart className="h-5 w-5 mr-2" />
-                Add to Cart
-              </Button>
-
-              {/* Delivery Info */}
-              <div className="grid grid-cols-3 gap-4 py-4">
-                <div className="text-center">
-                  <Truck className="h-6 w-6 mx-auto mb-2" />
-                  <p className="text-sm">Free Delivery</p>
-                  <p className="text-xs text-gray-500">Orders over ₦50,000</p>
-                </div>
-                <div className="text-center">
-                  <Shield className="h-6 w-6 mx-auto mb-2" />
-                  <p className="text-sm">Secure Payment</p>
-                  <p className="text-xs text-gray-500">100% Protected</p>
-                </div>
-                <div className="text-center">
-                  <RefreshCw className="h-6 w-6 mx-auto mb-2" />
-                  <p className="text-sm">Easy Returns</p>
-                  <p className="text-xs text-gray-500">30 Day Returns</p>
-                </div>
+            {/* Delivery Info */}
+            <div className="grid grid-cols-3 gap-4 py-4">
+              <div className="text-center">
+                <Truck className="h-6 w-6 mx-auto mb-2" />
+                <p className="text-sm">Free Delivery</p>
+                <p className="text-xs text-gray-500">Orders over ₦50,000</p>
+              </div>
+              <div className="text-center">
+                <Shield className="h-6 w-6 mx-auto mb-2" />
+                <p className="text-sm">Secure Payment</p>
+                <p className="text-xs text-gray-500">100% Protected</p>
+              </div>
+              <div className="text-center">
+                <RefreshCw className="h-6 w-6 mx-auto mb-2" />
+                <p className="text-sm">Easy Returns</p>
+                <p className="text-xs text-gray-500">30 Day Returns</p>
               </div>
             </div>
 

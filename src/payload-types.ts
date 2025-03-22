@@ -71,7 +71,6 @@ export interface Config {
     media: Media;
     products: Product;
     categories: Category;
-    prices: Price;
     tags: Tag;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -83,7 +82,6 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    prices: PricesSelect<false> | PricesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -167,7 +165,7 @@ export interface Product {
   descriptioon: string;
   image?: (string | null) | Media;
   categories?: (string | Category)[] | null;
-  prices?: (string | Price)[] | null;
+  price?: number | null;
   tags?: (string | Tag)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -179,17 +177,6 @@ export interface Product {
 export interface Category {
   id: string;
   name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prices".
- */
-export interface Price {
-  id: string;
-  name: string;
-  amount: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -225,10 +212,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: string | Category;
-      } | null)
-    | ({
-        relationTo: 'prices';
-        value: string | Price;
       } | null)
     | ({
         relationTo: 'tags';
@@ -318,7 +301,7 @@ export interface ProductsSelect<T extends boolean = true> {
   descriptioon?: T;
   image?: T;
   categories?: T;
-  prices?: T;
+  price?: T;
   tags?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -329,16 +312,6 @@ export interface ProductsSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prices_select".
- */
-export interface PricesSelect<T extends boolean = true> {
-  name?: T;
-  amount?: T;
   updatedAt?: T;
   createdAt?: T;
 }

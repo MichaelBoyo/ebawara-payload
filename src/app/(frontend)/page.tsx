@@ -121,45 +121,38 @@ export default async function HomePage() {
                 <Separator />
                 <CardFooter className="p-4">
                   <div className="w-full">
-                    {product.prices &&
-                      product.prices.length > 0 &&
-                      typeof product.prices[0] === 'object' && (
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <p className="text-2xl font-bold text-gray-900">
-                                ₦{product.prices[0].amount.toLocaleString()}
-                              </p>
-                              {product.prices[0].amount < 100000 && (
-                                <Badge variant="destructive" className="text-xs">
-                                  20% OFF
-                                </Badge>
-                              )}
-                            </div>
-                            {product.prices[0].amount < 100000 && (
-                              <p className="text-sm text-gray-500 line-through">
-                                ₦{(product.prices[0].amount * 1.2).toLocaleString()}
-                              </p>
-                            )}
-                            {product.prices.length > 1 && (
-                              <p className="text-xs text-gray-600 mt-1">
-                                +{product.prices.length - 1} more options
-                              </p>
-                            )}
-                          </div>
-                          <div className="flex flex-col items-end gap-1">
-                            <Link href={`/products/${product.id}`}>
-                              <Button size="sm" className="bg-black hover:bg-black/90">
-                                <ShoppingCart className="h-4 w-4 mr-2" />
-                                View Options
-                              </Button>
-                            </Link>
-                            {product.prices[0].amount > 50000 && (
-                              <p className="text-xs text-green-600 font-medium">Free Shipping</p>
-                            )}
-                          </div>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="text-2xl font-bold text-gray-900">
+                            {product.price
+                              ? `₦${product.price.toLocaleString()}`
+                              : 'Price not available'}
+                          </p>
+                          {product.price && product.price < 100000 && (
+                            <Badge variant="destructive" className="text-xs">
+                              20% OFF
+                            </Badge>
+                          )}
                         </div>
-                      )}
+                        {product.price && product.price < 100000 && (
+                          <p className="text-sm text-gray-500 line-through mt-1">
+                            ₦{(product.price * 1.2).toLocaleString()}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        <Link href={`/products/${product.id}`}>
+                          <Button size="sm" className="bg-black hover:bg-black/90">
+                            <ShoppingCart className="h-4 w-4 mr-2" />
+                            View Details
+                          </Button>
+                        </Link>
+                        {product.price && product.price > 50000 && (
+                          <p className="text-xs text-green-600 font-medium">Free Shipping</p>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </CardFooter>
               </Card>

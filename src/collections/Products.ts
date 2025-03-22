@@ -28,10 +28,12 @@ export const Product: CollectionConfig = {
       hasMany: true,
     },
     {
-      type: 'relationship',
-      name: 'prices',
-      relationTo: 'prices',
-      hasMany: true,
+      type: 'number',
+      name: 'price',
+
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       type: 'relationship',
