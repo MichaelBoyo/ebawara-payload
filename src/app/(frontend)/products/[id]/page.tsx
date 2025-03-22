@@ -9,8 +9,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
-export default async function ProductPage(props: Promise<any>) {
-  const id = (await props).id
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
