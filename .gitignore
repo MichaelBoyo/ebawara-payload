@@ -41,3 +41,6 @@ next-env.d.ts
 .env
 
 /media
+shopcartyt
+# clerk configuration (can include secrets)
+/.clerk/
