@@ -10,21 +10,14 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
-interface Props {
-  params: {
-    id: string
-  }
-}
-
-export default async function ProductPage(props: Promise<Props>) {
-  const params = (await props).params
+export default async function ProductPage() {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
   const product = await payload
     .findByID({
       collection: 'products',
-      id: params.id,
+      id: '',
     })
     .catch(() => null)
 
