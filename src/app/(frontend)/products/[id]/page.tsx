@@ -16,7 +16,8 @@ interface Props {
   }
 }
 
-export default async function ProductPage({ params }: Props) {
+export default async function ProductPage(props: Promise<Props>) {
+  const params = (await props).params
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
