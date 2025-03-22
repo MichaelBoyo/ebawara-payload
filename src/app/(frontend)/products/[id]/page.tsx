@@ -9,14 +9,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
-export default async function ProductPage(
-  props: Promise<
-    | {
-        id: string
-      }
-    | any
-  >,
-) {
+export default async function ProductPage(props: Promise<any>) {
   const id = (await props).id
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
